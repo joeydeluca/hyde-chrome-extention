@@ -1,0 +1,27 @@
+.hyde-inline-search-container {
+    font-size: 12px;
+    color: #000000;
+    width: 400px;
+    position: absolute;
+    z-index: 99999;
+    border: solid #e6e9ec;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    text-align: left;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: initial;
+    padding: 10px;
+}
+
+.hyde-inline-search-container table {
+    width: 100%;
+}
+
+.hyde-inline-search-container td, .hyde-inline-search-container th {
+    padding: 10px;
+}
+
+.hyde-inline-search-container tr:nth-child(even) {
+  background-color: #dddddd;
+}

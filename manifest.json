@@ -1,0 +1,20 @@
+{
+    "name": "Trojan",
+    "version": "1.0",
+    "description": "Find people on the internet",
+    "manifest_version": 2,
+     "permissions": [
+        "notifications"
+    ],
+    "background": {
+        "scripts": ["scripts/background.js"],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["scripts/content.js"],
+            "css":["styles/style.css"]
+        }
+    ]
+}
