@@ -1,46 +1,73 @@
+const ignoreImagesCotaining = [
+    ".gif",
+    "/gif",
+    "gradient"
+];
+
+var timeout;
+
+let validImages = [];
+
 const getValidImages = function() {
-    return Array.from(
+    let images = Array.from(
         document.getElementsByTagName('img'))
+        .filter(e => validImages.indexOf(e) === -1)
+        .filter(e => e.className.indexOf('hyde') === -1)
         .filter(img => !img.currentSrc.includes('.gif') && !img.currentSrc.includes('/gif')
     );
+
+    validImages = validImages.concat(images);
+
+    return images;
 }
 
-const payload = getValidImages()
-    .slice(0, 10)
-    .map(img => (
-        {
-            "image-url": img.currentSrc,
-            "site-url": document.location.href
-        })
-    );
-
-const msg = {
-    type: "INGEST",
-    payload
+const initiateIngestion = function(images) {
+    chrome.runtime.sendMessage({
+        type: "INGEST",
+        payload: images
+                    .slice(0, 10)
+                    .map(img => (
+                        {
+                            "image-url": img.currentSrc,
+                            "site-url": document.location.href
+                        })
+                    )
+    });
+    
 }
 
-chrome.runtime.sendMessage(msg);
+const displayImageSearchDiv = function(element) {    
+    if (timeout != null) { clearTimeout(timeout); }
+    timeout = setTimeout(() => {
 
-const displayImageSearchDiv = function(element) {
-    setTimeout(() => {
         if(document.getElementById("hyde_" + element.currentSrc)) {
             document.getElementById("hyde_" + element.currentSrc).style.display = "block";
             return; // Do not recreate the div 
         }
 
+        var overlay = document.createElement("div");
+        overlay.className = "hyde-overlay";
+        overlay.id = "hyde_" + element.currentSrc;
+
         var container = document.createElement("div");
         container.className = "hyde-inline-search-container";
-        container.id = "hyde_" + element.currentSrc;
-        container.appendChild(closeLink(container));
+        container.appendChild(closeLink(overlay));
 
         var searchWindowDiv = document.createElement("div");
         searchWindowDiv.innerText = "Searching internet...";
-        element.after(container);
+        
         container.appendChild(searchWindowDiv);
-
-
+        overlay.appendChild(container);
+        document.body.after(overlay);
+        
         searchForMatchingFaces(element.currentSrc, (result) => {
             if(result && result.length > 0) {
+
+                let group = result.reduce((r, a) => {
+                    r[a['site-url']] = [...r[a['site-url']] || [], a['image-url']];
+                    return r;
+                }, {});
+
                 searchWindowDiv.innerText = "";
 
                 let ol = document.createElement("table");
@@ -54,27 +81,45 @@ const displayImageSearchDiv = function(element) {
                 tr.appendChild(td2);
                 ol.appendChild(tr);
                 
-                result.forEach(r => {
+                Object.entries(group).forEach(r => {
+                    let site = r[0];
+                    let images = r[1];
+
                     let tr = document.createElement("tr");
 
                     let td = document.createElement("td");
-                    td.appendChild(document.createTextNode(r['site-url']))
+                    td.appendChild(document.createTextNode(site))
+
+                    let found = document.createElement("div");
+                    found.className = "found";
+                    found.appendChild(document.createTextNode(images.length + " images found"));
+                    td.appendChild(found);
+
                     tr.appendChild(td);
 
                     td = document.createElement("td");
 
-                    let img = document.createElement("img");
-                    img.src = r['image-url'];
-                    img.style.width = "50px";
-
-                    td.appendChild(img);
+                    const maxImagesToShow = 6;
+                    images.slice(0,maxImagesToShow).forEach(i => {
+                        let img = document.createElement("img");
+                        img.src = i;
+                        img.className = "hyde"
+                        td.appendChild(img);
+                    });
+                    if(images.length > maxImagesToShow) {
+                        let more = document.createElement("div");
+                        more.className = "found";
+                        more.appendChild(document.createTextNode(images.length-maxImagesToShow+" more images"));
+                        td.appendChild(more);
+                    }
+                    
                     tr.appendChild(td);
 
                     ol.appendChild(tr);
                 });
                 searchWindowDiv.appendChild(ol);
             } else {
-                searchWindowDiv.replaceChild = document.createTextNode("No results found.");
+                searchWindowDiv.innerText = "No results found.";
             }
         });
     }, 1000);
@@ -88,13 +133,39 @@ const searchForMatchingFaces = function(url, callback) {
     return chrome.runtime.sendMessage(msg, callback);
 }
 
-const closeLink = function(containerElement) {
-    let text = document.createTextNode("close");
+const closeLink = function(overlayElement) {
+    let text = document.createTextNode("X");
     let a = document.createElement("a");
     a.id = "hyde-close";
-    a.onclick = (e) => {e.preventDefault(); containerElement.style.display = "none";};    
+    a.onclick = (e) => {e.preventDefault(); overlayElement.style.display = "none";};    
     a.appendChild(text);
     return a;
 }
 
-getValidImages().forEach(e => e.onmouseover = () => displayImageSearchDiv(e));
+const addHoverHandlersToImages = function (images) {
+    images.forEach(e => {
+        e.onmouseenter = (a) => {displayImageSearchDiv(e);   a.stopPropagation();};
+        e.onmouseleave = (a) => {
+            if(timeout != null) {
+                clearTimeout(timeout); 
+                timeout = null;
+            }
+              a.stopPropagation();
+        }
+    });
+}
+
+const start = function() {
+    const images = getValidImages();
+
+    if(images.length !== 0) {
+        addHoverHandlersToImages(images);
+        initiateIngestion(images);
+    }
+}
+
+start();
+
+setInterval(() => {
+      start();
+}, 2000);

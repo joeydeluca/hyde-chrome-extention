@@ -1,8 +1,24 @@
+.hyde-overlay {
+  position: fixed; /* Sit on top of the page content */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0; 
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 99999999999999; /* Specify a stack order in case you're using a different order for other elements */
+}
+
 .hyde-inline-search-container {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
     font-size: 12px;
     color: #000000;
     width: 400px;
-    position: absolute;
     z-index: 99999;
     border: solid #e6e9ec;
     border-radius: 15px;
@@ -12,16 +28,41 @@
     line-height: 1.5;
     font-weight: initial;
     padding: 10px;
+    max-height: 70%;
+    overflow: scroll;
 }
 
 .hyde-inline-search-container table {
     width: 100%;
+    border-spacing: 0;
+}
+
+.hyde-inline-search-container th {
+    text-align: center;
 }
 
 .hyde-inline-search-container td, .hyde-inline-search-container th {
     padding: 10px;
+    text-align: center;
 }
 
 .hyde-inline-search-container tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: #e6e9ec;
+}
+
+.hyde-inline-search-container a {
+    float: right;
+    cursor: pointer;
+}
+
+.hyde-inline-search-container img {
+    padding: 3px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+}
+
+.hyde-inline-search-container .found {
+    font-size: 10px;
+    color: green;
 }

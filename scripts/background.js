@@ -28,7 +28,9 @@ function search(url, sendResponse) {
         if(res.status == 200) return res.json();
         throw new Error(res);
     }, 
-    error => {throw new Error(res);})
+    error => {sendResponse([])})
+    .then(response => Array.from(new Set(response.map(JSON.stringify))).map(JSON.parse))
+    .then(response => {response.sort(function(a, b){return a['site-url'] > b['site-url'] ? 1 : a['site-url'] < b['site-url'] ? -1 : 0}); return response;})
     .then(response => sendResponse(response))
     .catch((error) => sendResponse([]));
 }
