@@ -4,7 +4,7 @@
     "description": "Find people on the internet",
     "manifest_version": 2,
      "permissions": [
-        "notifications"
+        "notifications", "declarativeContent", "storage"
     ],
     "background": {
         "scripts": ["scripts/background.js"],
@@ -16,5 +16,8 @@
             "js": ["scripts/content.js"],
             "css":["styles/style.css"]
         }
-    ]
+    ],
+    "page_action": {
+      "default_popup": "html/popup.html"
+    }
 }

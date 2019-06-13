@@ -44,6 +44,7 @@
 .hyde-inline-search-container td, .hyde-inline-search-container th {
     padding: 10px;
     text-align: center;
+    vertical-align: middle;
 }
 
 .hyde-inline-search-container tr:nth-child(even) {

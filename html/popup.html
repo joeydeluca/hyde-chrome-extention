@@ -1,1 +1,35 @@
-Hello world
+<!DOCTYPE html>
+  <html>
+    <head>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="../styles/popup.css">
+    </head>
+    <body id="hyde-popup">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Hyde</a> <span class="badge badge-warning">Beta</span>
+      </nav>
+      <div class="container">
+        <h1 class="text-center">welcome to hyde.</h1>
+        <p class="text-center small">Hyde uses state-of-the-art image recognition and machine learning technology to identify people on the internet.</p>
+
+        <ul>
+          <li><strong>Dating:</strong> Find out if a person in your social media feed is also on dating sites.</li>
+          <li><strong>Parents:</strong> What type of photos are your kids uploading online?</li>
+          <li><strong>Hiring Managers:</strong> Are candidates uploading questionable photos online?</li>
+        </ul>
+
+        <div><strong>How to use:</strong></div>
+        <div class="small">
+          1. Hover over an image of a person with your mouse.<br />
+          2. Hyde will search the internet and find all websites where the person has uploaded photos.
+        </div>
+        <hr/>
+        <div class="text-center">
+          <button id="btn-enable" type="button" class="btn btn-primary btn-sm">Enable</button>
+          <button id="btn-disable" type="button" class="btn btn-secondary btn-sm">Disable</button>
+        </div>
+        <p id="hyde-status" class="small text-center"><i>Hyde is enabled.</i></p>
+      </div>
+      <script src="../scripts/popup.js"></script>
+    </body>
+  </html>

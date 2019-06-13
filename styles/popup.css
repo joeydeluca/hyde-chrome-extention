@@ -1,0 +1,9 @@
+body {
+    width: 500px;
+    height: 500px;
+    padding-top: 5rem;
+}
+
+#hyde-popup nav, #hyde-popup .btn-primary {
+    background-color: #563d7c !important;
+}
