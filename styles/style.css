@@ -35,10 +35,13 @@
 .hyde-inline-search-container table {
     width: 100%;
     border-spacing: 0;
+    font-size: 12px;
 }
 
 .hyde-inline-search-container th {
     text-align: center;
+    background-color: #563d7c;
+    color: white;
 }
 
 .hyde-inline-search-container td, .hyde-inline-search-container th {
