@@ -6,23 +6,16 @@ const doIfEnabled = (callback) => {
     });
 }
 
-const ignoreImagesCotaining = [
-    ".gif",
-    "/gif",
-    "gradient"
-];
-
 var timeout;
 
 let validImages = [];
 
 const getValidImages = function() {
-    let images = Array.from(
-        document.getElementsByTagName('img'))
+    let images = Array.from(document.getElementsByTagName('img'))
         .filter(e => validImages.indexOf(e) === -1)
         .filter(e => e.className.indexOf('hyde') === -1)
-        .filter(img => !img.currentSrc.includes('.gif') && !img.currentSrc.includes('/gif')
-    );
+        .filter(img => !img.currentSrc.includes('.gif') && !img.currentSrc.includes('/gif') && !img.currentSrc.includes('gradient'))
+        .filter(e => e.naturalHeight >= 80 && e.naturalWidth >= 80); // aws rek min size is 80px
 
     validImages = validImages.concat(images);
 
