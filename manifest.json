@@ -1,6 +1,6 @@
 {
     "name": "Hyde",
-    "version": "0.1",
+    "version": "0.2",
     "description": "Find people on the internet",
     "manifest_version": 2,
     "icons": { 
