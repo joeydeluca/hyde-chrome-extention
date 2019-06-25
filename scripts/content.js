@@ -26,7 +26,6 @@ const initiateIngestion = function(images) {
     chrome.runtime.sendMessage({
         type: "INGEST",
         payload: images
-                    .slice(0, 40)
                     .map(img => (
                         {
                             "image-url": img.currentSrc,

@@ -7,3 +7,7 @@ body {
 #hyde-popup nav, #hyde-popup .btn-primary {
     background-color: #563d7c !important;
 }
+
+#hyde-popup li {
+    font-size: 14px;
+}

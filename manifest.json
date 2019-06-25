@@ -1,10 +1,15 @@
 {
     "name": "Hyde",
-    "version": "1.0",
+    "version": "0.1",
     "description": "Find people on the internet",
     "manifest_version": 2,
-     "permissions": [
-        "notifications", "declarativeContent", "storage"
+    "icons": { 
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png" 
+    },
+    "permissions": [
+        "notifications", "declarativeContent", "storage", "activeTab"
     ],
     "background": {
         "scripts": ["scripts/background.js"],
