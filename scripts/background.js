@@ -22,7 +22,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 function ingest(payload) {
     getOrCreateClientId(function(clientId) {
-        fetch('https://8ye3e8y414.execute-api.us-east-1.amazonaws.com/dev/image', {
+        fetch('https://cme6z8fkik.execute-api.us-east-1.amazonaws.com/dev/image', {
             method: 'post',
             headers: {'client-id': clientId},
             body: JSON.stringify(payload)
@@ -32,7 +32,7 @@ function ingest(payload) {
 
 function search(url, sendResponse) {
     getOrCreateClientId(function(clientId) {
-        fetch('https://8ye3e8y414.execute-api.us-east-1.amazonaws.com/dev/search', {
+        fetch('https://cme6z8fkik.execute-api.us-east-1.amazonaws.com/dev/search', {
             method: 'post',
             headers: {'client-id': clientId},
             body: JSON.stringify({
